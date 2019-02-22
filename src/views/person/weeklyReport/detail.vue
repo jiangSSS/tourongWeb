@@ -2,9 +2,9 @@
   <div class="fll">
     <div class="person_content">
       <p class="report_now">
-        <i></i>
-        <span>{{time.substr(0,4)}}年第{{issue}}期</span>
-        <span class="time">{{time.substr(0,10)}}</span>
+        <!-- <i></i> -->
+        <!-- <span>{{time.substr(0,4)}}年第{{issue}}期</span> -->
+        <!-- <span class="time">{{time.substr(0,10)}}</span> -->
       </p>
       <p class="project_title">
         <span class="project_">项目精选</span>
@@ -110,7 +110,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
@@ -130,7 +129,9 @@ export default {
       let id = this.$route.query.id
       this.issue = this.$route.query.issue
       this.time = this.$route.query.time
-      this.$axios.get(`/jsp/wap/center/ctrl/jsonWeeklyDetail.jsp?id=${id}`).then(res => {
+      let preview = this.$route.query.preview  
+      this.$axios.get(`/jsp/wap/center/ctrl/jsonWeeklyDetail.jsp?id=${id}&&preview=${preview}`).then(res => {
+        console.log(res)
         this.actlist = res.data.activityList
         this.projectData = res.data.projectList
         this.messageData = res.data.newsList

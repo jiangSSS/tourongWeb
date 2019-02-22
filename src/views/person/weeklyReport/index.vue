@@ -23,7 +23,7 @@
       <div class="clearfix" v-if="reportData.length > 0">
         <ul class="report_ul fll">
             <li class="report_list" v-for="(item , index) in reportData" :key="index">
-          <router-link :to="{name:'weeklyReportDetail',query:{id:item.id,issue:count - index,time:item.addTimeStr}}">
+          <router-link :to="{name:'weeklyReportDetail',query:{id:item.id,preview:item.preview}}">
               <span class="time" v-if="item&&item.addTimeStr">{{item.addTimeStr.substr(0,10)}}</span>
               <span class="line"></span>
               <i></i>
@@ -33,7 +33,7 @@
         </ul>
         <ul class="report_ul flr" style="margin-right:30px;" v-if="reportData.length == 10">
           <li class="report_list" v-for="(item , index) in reportData2" :key="index">
-          <router-link :to="{name:'weeklyReportDetail',query:{id:item.id,issue:count - index,time:item.addTimeStr}}">
+          <router-link :to="{name:'weeklyReportDetail',query:{id:item.id,preview:item.preview}}">
             <span class="time" v-if="item&&item.addTimeStr">{{item.addTimeStr.substr(0,10)}}</span>
             <span class="line"></span>
             <i></i>
