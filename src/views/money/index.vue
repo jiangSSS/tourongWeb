@@ -293,7 +293,7 @@
                 <!-- </div>
                 <div class="fll"> -->
                   <div class="box_content fll">
-                    <span class="list-contentName">资金类型：</span>
+                    <span class="list-contentName">资金主体：</span>
                     <span class="list-content" v-if="item&&item.pawnTypeName">{{item.pawnTypeName}}</span>
                     <span class="list-content" v-else>***</span>
                   </div>
@@ -341,7 +341,7 @@
             <span class="cl-0">{{item.title}}</span>
           </li>
         </ul>
-        <img src="/static/img/bg-3.jpg" alt width="360px" height="350px" style="margin-bottom:75px">
+        <img :src="$url + imgData.webImgPath" alt width="360px" height="350px" style="margin-bottom:75px">
       </div>
       <el-dialog title="选择投递项目" :visible.sync="dialogFormVisible" width="30%" :before-close ="before_close">
         <div v-if="sub_project"> 
@@ -437,9 +437,17 @@ export default {
       myProject_pagination: false,
       sub_project:true,
       no_project:false,
+      imgData:[]
     };
+
   },
   methods: {
+     getImg(){
+      this.$axios.get(`/jsp/wap/index/ctrl/jsonAdvertisement.jsp?key=webCapitalList`).then(res=>{
+        console.log("img",res)
+        this.imgData = res.data
+      })
+    },
     getTypeData() {
       this.$axios
         .get("/jsp/wap/trCapital/ctrl/jsonCategoryList.jsp")
@@ -908,6 +916,7 @@ export default {
     this.getTypeData();
     this.getActData();
     this.getNewsList();
+    this.getImg()
     if (Cookies.get("userKey")) {
       this.getMyProject();
     }

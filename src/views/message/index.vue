@@ -62,7 +62,8 @@
               <span class="cl-0">{{item.title}}</span>
           </li>
       </ul>
-      <img src="/static/img/bg-4.jpg" alt width="360px" height="350px" style="margin-bottom:75px">
+      <!-- <img src="/static/img/bg-4.jpg" alt width="360px" height="350px" style="margin-bottom:75px"> -->
+       <img :src="$url + imgData.webImgPath" alt width="360px" height="350px" style="margin-bottom:75px">
     </div>
   </div>
 </template>
@@ -78,10 +79,17 @@ export default {
       newsloading:false,
       categoryList:[],
       categorys:'',
-      current_page:1
+      current_page:1,
+      imgData:[]
     };
   },
   methods: {
+     getImg(){
+      this.$axios.get(`/jsp/wap/index/ctrl/jsonAdvertisement.jsp?key=webNewsList`).then(res=>{
+        console.log("img",res)
+        this.imgData = res.data
+      })
+    },
     //获取分类数据
     getTypeData(){
       this.$axios.get('/jsp/wap/trNews/ctrl/jsonCategoryList.jsp').then(res => {
@@ -195,7 +203,7 @@ export default {
       this.getTypeData()
       this.getData(this.categorys)
     }
-
+      this.getImg()
       this.getNewsList()
   }
 };

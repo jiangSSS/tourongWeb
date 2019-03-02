@@ -17,7 +17,8 @@
         <span class="content2">更易成功</span>
       </div>
       <div class="vip fll">
-        <button class="subBtn" @click="dialogFormVisible = true">联系我们开通VIP服务</button>
+        <button class="subBtn" v-if="isVip != '0'">您已开通VIP</button>        
+        <button class="subBtn" v-else @click="dialogFormVisible = true">联系我们开通VIP服务</button>
       </div>
       <div class="fll w1200">
         <p class="ser_title">服务内容</p>
@@ -103,6 +104,7 @@
         success: false,
         hint: '',
         right: 0,
+        isVip:'0',
         seriver: [{ name: '信息服务', choose: true }, { name: '商业衔接服务', choose: false }, { name: '商业需求推广服务', choose: false }, { name: '研修服务', choose: false }, { name: '定制化增值服务', choose: false },],
         vipForm: {
           name: '',
@@ -132,7 +134,11 @@
           ],
           company: [
             { required: true, message: '请输入公司名称', trigger: 'blur' },
-          ]
+          ],
+          
+          personData:{
+            isVip:"0"
+          }
         }
       }
     },
@@ -165,34 +171,27 @@
           }
         });
       },
-      //    submitForm(formName) {
-      //   this.$refs[formName].validate(valid => {
-      //     if (valid) {
-      //       this.$axios.get('/jsp/wap/center/do/doExpertRecommend.jsp',{params:{name:this.attestForm.name,mobile:this.attestForm.mobile,company:this.attestForm.company,job:this.attestForm.job,introduce:this.attestForm.introduce}}).then(res => {
-      //         if (res.success == "true") {
-      //           this.success = true;
-      //           this.hint = "提交成功！我们客服人员会尽快与您联系";
-      //           this.toast_show = true;
-      //         } else {
-      //           this.success = false;
-      //           this.hint = res.message;
-      //           this.toast_show = true;
-      //         }
-      //       })
-      //     } else {
-      //       this.success = false;
-      //       this.hint = "提交失败，请填写必填内容";
-      //       this.toast_show = true;
-      //       return false;
-      //     }
-      //   });
-      // },
       before_close() {
         this.dialogFormVisible = false;
         setTimeout(() => {
           this.sub_Vip = true;
         }, 1000)
       },
+       getUserInfo() {
+        this.$axios.get('/jsp/wap/center/ctrl/jsonUserInfo.jsp').then(res => {
+          console.log("0",res)
+          if (res.success == 'true') {
+            // this.personData.avatar = res.data.userInfo.headImgPath
+            // this.personData.name = res.data.userInfo.name
+            this.isVip = res.data.userInfo.isVip
+            // this.personData.authenticationName = res.data.userInfo.authenticationName 
+            this.$store.commit('CHANGE_USERINFO', res.data.userInfo)
+          }
+        })
+      },
+    },
+    created () {
+      this.getUserInfo()
     }
   }
 </script>

@@ -21,7 +21,7 @@
               <span class="cl-0">{{item.title}}</span>
           </li>
       </ul>
-      <img src="/static/img/bg-3.jpg" alt width="360px" height="350px" style="margin-bottom:75px">
+      <!-- <img src="/static/img/bg-3.jpg" alt width="360px" height="350px" style="margin-bottom:75px"> -->
     </div>
   </div>
 </template>

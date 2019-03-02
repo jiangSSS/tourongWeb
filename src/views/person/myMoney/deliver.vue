@@ -20,7 +20,7 @@
                 <span class="content">{{item.capitalName}}</span>
               </p> -->
               <div class="clearfix">
-                <span class="content1 fll">我的项目：</span> <span class="content content1 fll">{{item.projectName}}</span>
+                <span class="content1 fll">我的资金：</span> <span class="content content1 fll">{{item.projectName}}</span>
               </div>
               <p>
                 接收人：
@@ -35,7 +35,7 @@
             <!-- <div v-show="noShow" class="noChange">您还没有发出约见</div> -->
           </div>
         </el-tab-pane>
-        <el-tab-pane label="我收到的约谈">
+        <el-tab-pane label="我收到的投递">
           <div class="project">
             <div v-for="(item, index) in pageList" :key="index" class="project_list">
               <p class="title" @click="toSendProject(item.projectId)">{{item.projectName}}</p>
@@ -107,12 +107,12 @@
       // },
       getData() {
         this.$axios.get(`/jsp/wap/center/ctrl/jsonDeliverMeList.jsp`).then(res => {
-          console.log("我收到的约谈", res)
+          console.log("我收到的投递", res)
           this.pageList = res.data.pageList
         })
       },
       getData1() {
-        this.$axios.get(`/jsp/wap/center/ctrl/jsonMyDeliverList.jsp`).then(res => {
+        this.$axios.get(`/jsp/wap/center/ctrl/jsonMyBespoketList.jsp`).then(res => {
           console.log("我发起的约谈", res)
           this.myPageList = res.data.pageList
           // if (this.myPageList.length == 0) {

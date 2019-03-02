@@ -44,6 +44,7 @@
         <span class="message el-dropdown-link flr" @click="inform">
           <i></i>
           消息通知
+          <!-- <span class="newNum" v-if="this.num != '0'">{{num}}</span> -->
         </span>
       </div>
     </div>
@@ -102,10 +103,17 @@
         login: false,
         type: '1',
         title: '',
-        timer: null
+        timer: null,
+        num:"",
       }
     },
     methods: {
+      getMessageCount() {
+        this.$axios.get(`/jsp/wap/center/ctrl/jsonSysMsgNum.jsp`).then(res => {
+          console.log("未读数量", res)
+          this.num = res.data
+        })
+      },
       login_now() {
         if (Cookies.get('userKey')) {
           this.login = true
@@ -250,6 +258,7 @@
     created() {
       this.setTimer()
       this.login_now()
+      this.getMessageCount()
     }
   };
 </script>
@@ -436,5 +445,11 @@
   .router-link-active {
     color: rgb(0, 89, 130) !important;
     border-bottom: 3px solid #005982;
+  }
+  .newNum{
+    background: #f00;
+    color: #fff;
+    border-radius: 100%;
+    padding: 3px;
   }
 </style>

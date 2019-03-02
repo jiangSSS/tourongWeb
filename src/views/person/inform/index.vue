@@ -18,7 +18,7 @@
         </p>
       </div>
       <div v-show="noShow" class="noChange">暂无消息通知</div>
-      <div class="mes_page">
+      <!-- <div class="mes_page">
         <el-pagination
           v-show="!noShow"
           background
@@ -26,7 +26,7 @@
           layout="total, prev, pager, next, jumper"
           :total="count"
         ></el-pagination>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

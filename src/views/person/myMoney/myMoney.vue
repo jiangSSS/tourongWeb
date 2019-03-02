@@ -1,6 +1,76 @@
 <template>
   <div class="fll">
-    <router-view></router-view>
+    <div class="person_content">
+      <p class="clearfix">
+        <span class="mine_money fll">我发布的投资</span>
+        <span class="flr clearfix">
+          <button class="noLikeBtn" @click="applyMoney">
+            <i></i>添加投资
+          </button>
+          <button class="likeBtn flr" @click="uploadMoney">
+            <i></i>快速上传
+          </button>
+          <button class="draftBtn" @click="todraft">
+            <i></i>草稿箱
+          </button>
+          <button class="deliveryBtn" @click="todelivery">
+            <i></i>我的约谈
+          </button>
+        </span>
+      </p>
+      <p class="project_title">
+        <span class="project_">投资信息</span>
+      </p>
+      <div class="invest-menu clearfix">
+        <div v-for="(item , index) in pageList" :key="index" class="invest-item fll clearfix">
+          <div class="invest-text fll">
+            <p class="invest-item-title" @click="toMoneyDetailPage(item.id,item.status)">{{item.title}}</p>
+            <p class="invest-item-list">
+              投资资金：
+              <span class="invest-money">{{item.investAmountName}}</span>
+            </p>
+            <p class="invest-item-list w230 inb">
+              投资方式：
+              <span class="invest-content">{{item.investCase}}</span>
+            </p>
+            <p class="invest-item-list inb">
+              资金类型：
+              <span class="invest-content">{{item.investTypeName}}</span>
+            </p>
+            <p class="invest-item-list w230 inb">
+              投资地区：
+              <span class="invest-content">{{item.investRegionNameStr}}</span>
+            </p>
+            <p class="invest-item-list inb">
+              投资行业：
+              <span class="invest-content">{{item.investIndustryName}}</span>
+            </p>
+            <p class="invest-item-list w230 inb">
+              投资类型：
+              <span class="invest-content">{{item.investTypeName}}</span>
+            </p>
+            <p class="invest-item-list inb">
+              投资阶段：
+              <span class="invest-content">{{item.investStageName}}</span>
+            </p>
+          </div>
+          <span class="deliver" v-if="item.status == '10'">投递项目：
+            <a>{{item.bespokeNum}}</a>
+          </span>
+          <!-- <span class="flr" :class="item.check == 0 ? ' already':'' + item.check == 1 ? ' being':'' + item.check == 2 ? ' not':'' + item.check == 3 ? ' fail':''">{{item.check == 0 ? '已发布':'' + item.check == 1 ? '审核中':'' + item.check == 2 ? '未发布':''}}</span> -->
+          <span class="flr" v-if="item.status != '0'" :class="item.status  == '5' ? ' being':'' + item.status == '10' ? ' already':'' + item.status == '15'? ' fail':''">{{item.status == '5' ? '审核中':'' + item.status == '10' ? '审核通过':'' + item.status == '15'? '':''}}</span>
+          <span class="flr not" v-else>未发布</span>
+          <span v-if="item.status == '10'" class="flr nosuccess">111  </span>
+          <el-button title="添加动态" class="flr manage" icon="el-icon-edit-outline" circle size="mini" @click="manage(item.id)"></el-button>
+          <el-button title="修改" type="primary" icon="el-icon-edit" circle class="flr cancel1" size="mini" @click="amend(item.id)"></el-button>
+          <el-button title="删除" type="danger" icon="el-icon-delete" circle class="flr cancel2" size="mini" @click="delete_item(item.id,index)"></el-button>
+        </div>
+        <p v-show="pageList.length == 0" class="noAtt">你没有任何资金哦~</p>
+      </div>
+      <div class="mes_page">
+        <el-pagination background @current-change="handleCurrentChange" layout="total, prev, pager, next, jumper" :total="count"></el-pagination>
+      </div>
+    </div>
   </div>
 </template>
 

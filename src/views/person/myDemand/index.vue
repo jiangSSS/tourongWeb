@@ -63,12 +63,12 @@
       </div>
       <div v-show="table">
       <el-table
-          :data="otherDemand"
+          :data="demand"
           style="width: 100%"
           :default-sort = "{prop: 'date', order: 'descending'}"
           >
           <el-table-column
-            prop="status"
+            prop="typeStr"
             label="类型"
             sortable
             width="180">
@@ -85,7 +85,7 @@
             sortable
             >
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             label="操作"
             >
             <template slot-scope="scope">
@@ -94,7 +94,7 @@
                 type="danger"
                 @click="handleDelete(scope.row,scope.$index)">删除</el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
       </div>
     </div>
@@ -115,6 +115,7 @@
 export default {
   data() {
     return {
+      demand:[],
       table:false,
       specialist_show: false,
       hint:"",
@@ -232,14 +233,14 @@ export default {
     },
     getDemand(){
       this.$axios.get('/jsp/wap/center/ctrl/jsonFeedbackList.jsp').then(res => {
-        console.log(res);
-        var demand = res.data.pageList
-        demand.forEach(item => {
-          if(item.status == '0'){
-            item.status = '其他需求'
-          }
-        })
-        this.otherDemand = demand
+        console.log("需求列表",res);
+        this.demand = res.data.pageList
+        // demand.forEach(item => {
+        //   if(item.status == '0'){
+        //     item.status = '其他需求'
+        //   }
+        // })
+        // this.otherDemand = demand
       })
     },
     get_type(index) {
@@ -281,21 +282,21 @@ export default {
         this.getDemand()
       }
     },
-    handleDelete(row,index){
-    let id = row.id
-    this.$axios.get(`/jsp/wap/center/do/doDelFeedback.jsp?id=${id}`).then(res => {
-      if(res.success == 'true'){
-        this.otherDemand.splice(index,1)
-        this.success = true;
-        this.hint = "删除成功";
-        this.toast_show = true;
-      } else {
-        this.success = false;
-        this.hint = res.message;
-        this.toast_show = true;
-      }
-    })
-   }
+    // handleDelete(row,index){
+    // let id = row.id
+    // this.$axios.get(`/jsp/wap/center/do/doDelFeedback.jsp?id=${id}`).then(res => {
+    //   if(res.success == 'true'){
+    //     this.otherDemand.splice(index,1)
+    //     this.success = true;
+    //     this.hint = "删除成功";
+    //     this.toast_show = true;
+    //   } else {
+    //     this.success = false;
+    //     this.hint = res.message;
+    //     this.toast_show = true;
+    //   }
+    // })
+  //  }
   },
   
 };

@@ -34,6 +34,7 @@ const components = {
   myData: () => import('@/views/person/myData'), //我的资料
   myDemand: () => import('@/views/person/myDemand'), //我的需求
   myMoney: () => import('@/views/person/myMoney'), //我的资金
+  myMoneys: () => import('@/views/person/myMoney/myMoney'), //我的资金
   myMoneyDraft: () => import('@/views/person/myMoney/draft'),//资金草稿
   applyMoney: () => import('@/views/person/myMoney/apply'), //发布资金
   uploadApplyMoney: () => import('@/views/person/myMoney/uploadApply'),//上传资金
@@ -42,6 +43,7 @@ const components = {
   deliverMoney: () => import('@/views/person/myMoney/deliver'),//我的投递
   deliverProject: () => import('@/views/person/myProject/deliver'),//我的项目投递
   myProject: () => import('@/views/person/myProject'), //我的项目
+  myProjects: () => import('@/views/person/myProject/myProject'), //我的项目
   myProjectDraft: () => import('@/views/person/myProject/draft'),//资金草稿
   applyProject: () => import('@/views/person/myProject/apply'), //发布项目
   manageProject: () => import('@/views/person/myProject/manage'), //进展管理
@@ -416,37 +418,68 @@ const router = new Router({
               path:'myMoney',
               name:'myMoney',
               component:components.myMoney,
+              redirect:{name:"myMoneys"},
               meta:{
                 title:'我的资金',
                 authority:true
-              }
-            },
-            {
-              path:'myMoneyDraft',
-              name:'myMoneyDraft',
-              component:components.myMoneyDraft,
-              meta:{
-                title:'我的资金 > 资金草稿',
-                authority:true
-              }
-            },
-            {
-              path:'manageMoney',
-              name:'manageMoney',
-              component:components.manageMoney,
-              meta:{
-                title:'我的资金 > 动态管理',
-                authority:true
-              }
-            },
-            {
-              path:'addDynamicMoney',
-              name:'addDynamicMoney',
-              component:components.addDynamicMoney,
-              meta:{
-                title:'我的资金 > 资金动态',
-                authority:true
-              }
+              },
+              children:[
+                {
+                  path:'myMoneys',
+                  name:'myMoneys',
+                  component:components.myMoneys,
+                  meta:{
+                    title:'我的资金',
+                    authority:true
+                  }
+                },
+                {
+                  path:'myMoneyDraft',
+                  name:'myMoneyDraft',
+                  component:components.myMoneyDraft,
+                  meta:{
+                    title:'我的资金 > 资金草稿',
+                    authority:true
+                  }
+                },
+              
+                {
+                  path:'deliverMoney',
+                  name:'deliverMoney',
+                  component:components.deliverMoney,
+                  meta:{
+                    title:'我的资金 > 我的投递',
+                    authority:true
+                  }
+                },
+                {
+                  path:'uploadApplyMoney',
+                  name:'uploadApplyMoney',
+                  component:components.uploadApplyMoney,
+                  meta:{
+                    title:'我的资金 > 上传资金',
+                    authority:true
+                  }
+                },
+                {
+                  path:'manageMoney',
+                  name:'manageMoney',
+                  component:components.manageMoney,
+                  meta:{
+                    title:'我的资金 > 动态管理',
+                    authority:true
+                  }
+                },
+                {
+                  path:'addDynamicMoney',
+                  name:'addDynamicMoney',
+                  component:components.addDynamicMoney,
+                  meta:{
+                    title:'我的资金 > 资金动态',
+                    authority:true
+                  }
+                },
+              ]
             },
             {
               path:'applyMoney',
@@ -457,84 +490,82 @@ const router = new Router({
                 authority:true
               }
             },
-            {
-              path:'uploadApplyMoney',
-              name:'uploadApplyMoney',
-              component:components.uploadApplyMoney,
-              meta:{
-                title:'我的资金 > 上传资金',
-                authority:true
-              }
-            },
-            {
-              path:'deliverMoney',
-              name:'deliverMoney',
-              component:components.deliverMoney,
-              meta:{
-                title:'我的资金 > 我的投递',
-                authority:true
-              }
-            },
-            {
-              path:'deliverProject',
-              name:'deliverProject',
-              component:components.deliverProject,
-              meta:{
-                title:'我的项目 > 我的投递',
-                authority:true
-              }
-            },
-            {
-              path:'uploadApplyProject',
-              name:'uploadApplyProject',
-              component:components.uploadApplyProject,
-              meta:{
-                title:'我的项目 > 上传项目',
-                authority:true
-              }
-            },
+            
+           
+          
             {
               path:'myProject',
               name:'myProject',
               component:components.myProject,
+              redirect:{name:"myProjects"},
               meta:{
                 title:'我的项目',
                 authority:true
-              }
+              },
+              children:[
+                {
+                  path:'myProjects',
+                  name:'myProjects',
+                  component:components.myProjects,
+                  meta:{
+                    title:'我的项目',
+                    authority:true
+                  }
+                },
+                {
+                  path:'myProjectDraft',
+                  name:'myProjectDraft',
+                  component:components.myProjectDraft,
+                  meta:{
+                    title:'我的项目 > 项目草稿',
+                    authority:true
+                  }
+                },
+                {
+                  path:'manageProject',
+                  name:'manageProject',
+                  component:components.manageProject,
+                  meta:{
+                    title:'我的项目 > 进展管理',
+                    authority:true
+                  }
+                },
+                {
+                  path:'addDynamic',
+                  name:'addDynamic',
+                  component:components.addDynamic,
+                  meta:{
+                    title:'我的项目 > 项目进展',
+                    authority:true
+                  }
+                },
+                {
+                  path:'deliverProject',
+                  name:'deliverProject',
+                  component:components.deliverProject,
+                  meta:{
+                    title:'我的项目 > 我的投递',
+                    authority:true
+                  }
+                },
+                {
+                  path:'uploadApplyProject',
+                  name:'uploadApplyProject',
+                  component:components.uploadApplyProject,
+                  meta:{
+                    title:'我的项目 > 上传项目',
+                    authority:true
+                  }
+                },
+              ]
             },
-            {
-              path:'myProjectDraft',
-              name:'myProjectDraft',
-              component:components.myProjectDraft,
-              meta:{
-                title:'我的项目 > 项目草稿',
-                authority:true
-              }
-            },
+           
             {
               path:'applyProject',
               name:'applyProject',
               component:components.applyProject,
               meta:{
                 title:'我的项目 > 发布项目',
-                authority:true
-              }
-            },
-            {
-              path:'manageProject',
-              name:'manageProject',
-              component:components.manageProject,
-              meta:{
-                title:'我的项目 > 进展管理',
-                authority:true
-              }
-            },
-            {
-              path:'addDynamic',
-              name:'addDynamic',
-              component:components.addDynamic,
-              meta:{
-                title:'我的项目 > 项目进展',
                 authority:true
               }
             },

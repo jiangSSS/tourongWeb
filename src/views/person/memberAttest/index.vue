@@ -202,7 +202,8 @@
             var honorFilePath = this.attestForm.honorFilePath.join(',')
             var licenseFilePath = this.attestForm.licenseFilePath.join(',')
             this.$axios.get('/jsp/wap/center/do/doAuthentication.jsp', { params: { type: this.attestForm.type, brief: this.attestForm.brief, abilityBrief: this.attestForm.abilityBrief, cardFilePath, cvFilePath, honorFilePath, licenseFilePath } }).then(res => {
-              if (res.success == "true") {
+             console.log("提交上传",res)
+             if (res.success == "true") {
                 this.success = true;
                 this.hint = "上传认证资料成功";
                 this.toast_show = true;

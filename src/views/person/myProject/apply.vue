@@ -1262,9 +1262,9 @@
         });
       },
       removeTeam(item) {
-        var index = this.formData.teamList.indexOf(item);
-        if (index !== -1) {
-          this.formData.teamList.splice(index, 1);
+        var index1 = this.formData.teamList.indexOf(item);
+        if (index1 !== -1) {
+          this.formData.teamList.splice(index1, 1);
         }
       },
       addTeam() {

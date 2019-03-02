@@ -14,29 +14,38 @@
         <div class="person_top" @click="$router.push('/person')"></div>
         <div class="person_information clearfix">
           <div class="imgBox fll">
-            <img :src="$url + personData.avatar" alt class="avatar" v-if="personData&&personData.avatar != '/static/img/avatar-1.png'">
-            <img :src="personData.avatar" alt="" v-else class="avatar">
+            <img :src="$url + personData.avatar" alt class="avatar" v-if="personData&&personData.avatar != ''">
+            <img src="/static/img/avatar-1.png" alt="" v-else class="avatar">
           </div>
           <div class="nameBox flr">
             <i class="attest" v-show="personData.vip == '1'"></i>
             <div class="username">
               <i></i>
-              <span v-if="personData&&personData.avatar">{{personData.name}}</span>
+              <span>{{personData.name}}</span>
             </div>
-            <div class="equity" @click="$router.push({name:'member'})">
+            <div class="isVipColor" @click="$router.push({name:'member'})" v-if="personData.isVip != '0'">
               <i></i>会员权益中心
             </div>
+            <div class="equity" @click="$router.push({name:'member'})" v-else>
+              <i></i>会员权益中心
+            </div>
+            <!-- <div class="equity" @click="$router.push({name:'member'})" v-if="personData.isVip != '0'">
+              <i></i>会员权益中心
+            </div> -->
+            <!-- <div class="isVipColor" @click="$router.push({name:'member'})" v-else>
+              <i></i>会员权益中心
+            </div> -->
           </div>
         </div>
         <div class="companyBox">
-          <span class="company menber" v-if="personData.authenticationName != ''">{{personData.authenticationName}}</span>
-          <span class="company" v-else>暂未认证</span>
+          <!-- <span class="company menber" v-if="personData.authenticationName != ''">{{personData.authenticationName}}</span> -->
+          <!-- <span class="company" v-else>暂未认证</span> -->
         </div>
-        <!-- <div class="attest">
-            <span class="num"><i class="iconfont icon-touzi"></i>投资方</span>
-            <span class="num"><i class="iconfont icon-xiangmu1"></i>项目方</span>
-            <span class="num"><i class="iconfont icon-zhuanjia"></i>专家</span>
-          </div> -->
+        <div class="attest">
+            <span class="num" :class="{actived:personData.authenticationName}"><i class="iconfont icon-touzi" ></i>投资方</span>
+            <span class="num" :class="{actived:personData.authenticationName}"><i class="iconfont icon-xiangmu1"></i>项目方</span>
+            <span class="num" :class="{actived:personData.authenticationName}"><i class="iconfont icon-zhuanjia" ></i>专家</span>
+          </div>
         <div class="nav_list">
           <div class="nav_item">
             <span>
@@ -146,13 +155,28 @@
         this.login = false
         this.$router.push('/login')
       },
+       investIndustryChange(val) {
+      let investIndustryList = [];
+      val.forEach(item => {
+        investIndustryList.push(item.dataValue);
+      });
+      this.investIndustrys = investIndustryList.join(",");
+      this.getActData(
+        this.investIndustrys,
+        this.investTypes,
+        this.regions,
+        this.investRegions,
+        this.investAmounts
+      );
+    },
       getUserInfo() {
         this.$axios.get('/jsp/wap/center/ctrl/jsonUserInfo.jsp').then(res => {
+          console.log("0",res)
           if (res.success == 'true') {
             this.personData.avatar = res.data.userInfo.headImgPath
             this.personData.name = res.data.userInfo.name
             this.personData.isVip = res.data.userInfo.isVip
-            this.personData.authenticationName = res.data.userInfo.authenticationName
+            this.personData.authenticationName = res.data.userInfo.authenticationName 
             this.$store.commit('CHANGE_USERINFO', res.data.userInfo)
           }
         })
@@ -165,8 +189,12 @@
 </script>
 
 <style scoped lang="scss">
+
   .companyBox {
     text-align: center;
+  }
+  .actived{
+    color: #005982!important
   }
 
   .company {
@@ -248,6 +276,27 @@
           width: 20px;
           height: 15px;
           background: url(/static/img/zunshi.png) no-repeat center;
+          background-size: contain;
+          position: absolute;
+          top: 10px;
+          left: 5px;
+        }
+      }
+      .isVipColor{
+        color: #ee7c00;
+        width: 85px;
+        padding: 5px 10px 5px 25px;
+        font-size: 14px;
+        line-height: 1.5;
+        cursor: pointer;
+        background-color: #ededed;
+        border-radius: 8%; // margin: 0px auto;
+        position: relative;
+        i {
+          display: inline-block;
+          width: 20px;
+          height: 15px;
+          background: url(/static/img/zuanshi2.png) no-repeat center;
           background-size: contain;
           position: absolute;
           top: 10px;

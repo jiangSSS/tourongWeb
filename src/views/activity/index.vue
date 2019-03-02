@@ -68,7 +68,7 @@
       <p style="color:#999;"  v-show="noMore">-------------------------------------------------没有更多活动了----------------------------------------------------</p>
     </div>
     <div class="w360 flr mes_list clearfix">
-      <img src="/static/img/list-2.jpg" alt class="act_timelist">
+      <img :src="$url + imgData.webImgPath" alt class="act_timelist">
       <p class="mes">热门资讯
         <span class="mes_more flr" @click="toMessagePage">更多></span>
       </p>
@@ -77,7 +77,7 @@
               <span class="cl-0">{{item.title}}</span>
           </li>
       </ul>
-      <img src="/static/img/bg-3.jpg" alt="" width="360px" height="350px" style="margin-bottom:75px">
+      <img :src="$url + imgData1.webImgPath" alt="" width="360px" height="350px" style="margin-bottom:75px">
     </div>
     <el-dialog title="报名信息" :visible.sync="showApply" width="30%" @before_close='before_close'>
       <div v-if="sub_act">
@@ -124,6 +124,8 @@ import * as Cookies from 'js-cookie'
 export default {
   data() {
     return {
+      imgData:[],
+      imgData1:[],
       appleform: {
         memberName: "",
         memberMobile: "",
@@ -133,78 +135,7 @@ export default {
       categoryList: [],
       // statusList: ["报名中", "未开始", "已结束", "往期活动", "筛选"],
       statusList: [],
-      pageList: [
-        // {
-        //   img: "/static/img/list-1.jpg",
-        //   title: "投融资讯活动",
-        //   local: "北京市海淀区天秀路10号中国农大国际科技园",
-        //   speaker: "北京开拓明天科技股份有限公司",
-        //   num: 255,
-        //   beginTime: "2017-06-10",
-        //   endTime: "2018-10-12",
-        //   status: 1
-        // },
-        // {
-        //   img: "/static/img/list-1.jpg",
-        //   title: "投融资讯活动",
-        //   local: "北京市海淀区天秀路10号中国农大国际科技园",
-        //   speaker: "北京开拓明天科技股份有限公司",
-        //   num: 255,
-        //   beginTime: "2017-06-10",
-        //   endTime: "2018-10-12",
-        //   status: 0
-        // },
-        // {
-        //   img: "/static/img/list-1.jpg",
-        //   title: "投融资讯活动",
-        //   local: "北京市海淀区天秀路10号中国农大国际科技园",
-        //   speaker: "北京开拓明天科技股份有限公司",
-        //   num: 255,
-        //   beginTime: "2017-06-10",
-        //   endTime: "2018-10-12",
-        //   status: 0
-        // },
-        // {
-        //   img: "/static/img/list-1.jpg",
-        //   title: "投融资讯活动",
-        //   local: "北京市海淀区天秀路10号中国农大国际科技园",
-        //   speaker: "北京开拓明天科技股份有限公司",
-        //   num: 255,
-        //   beginTime: "2017-06-10",
-        //   endTime: "2018-10-12",
-        //   status: 0
-        // },
-        // {
-        //   img: "/static/img/list-1.jpg",
-        //   title: "投融资讯活动",
-        //   local: "北京市海淀区天秀路10号中国农大国际科技园",
-        //   speaker: "北京开拓明天科技股份有限公司",
-        //   num: 255,
-        //   beginTime: "2017-06-10",
-        //   endTime: "2018-10-12",
-        //   status: 1
-        // },
-        // {
-        //   img: "/static/img/list-1.jpg",
-        //   title: "投融资讯活动",
-        //   local: "北京市海淀区天秀路10号中国农大国际科技园",
-        //   speaker: "北京开拓明天科技股份有限公司",
-        //   num: 255,
-        //   beginTime: "2017-06-10",
-        //   endTime: "2018-10-12",
-        //   status: 0
-        // },
-        // {
-        //   img: "/static/img/list-1.jpg",
-        //   title: "投融资讯活动",
-        //   local: "北京市海淀区天秀路10号中国农大国际科技园",
-        //   speaker: "北京开拓明天科技股份有限公司",
-        //   num: 255,
-        //   beginTime: "2017-06-10",
-        //   endTime: "2018-10-12",
-        //   status: 1
-        // },
-      ],
+      pageList: [],
       mesData: [
         {
           content:'“ofo小黄车退了么”成为了关注焦点；中移动受让中国民航信息5.01%股权'
@@ -265,6 +196,18 @@ export default {
     };
   },
   methods: {
+     getImg(){
+      this.$axios.get(`/jsp/wap/index/ctrl/jsonAdvertisement.jsp?key=webActivitySchedule`).then(res=>{
+        console.log("img",res)
+        this.imgData = res.data
+      })
+    },
+     getImg2(){
+      this.$axios.get(`/jsp/wap/index/ctrl/jsonAdvertisement.jsp?key=webActivityList`).then(res=>{
+        console.log("img",res)
+        this.imgData1 = res.data
+      })
+    },
     getTypeData(){
       this.$axios.get('/jsp/wap/trActivity/ctrl/jsonCategoryList.jsp').then(res => {
         if(res.success == "true"){
@@ -441,6 +384,8 @@ export default {
     this.getTypeData()
     this.getActData(this.category,this.status)
     this.getNewsList()
+    this.getImg()
+    this.getImg2()
   }
 };
 </script>

@@ -195,7 +195,7 @@
             </router-link>
           </li>
       </ul>
-      <img src="/static/img/bg-3.jpg" alt width="360px" height="350px" style="margin-bottom:75px">
+      <img :src="$url + imgData.webImgPath" alt width="360px" height="350px" style="margin-bottom:75px">
     </div>
     <el-dialog title="选择投递资金" :visible.sync="dialogFormVisible" width="30%" :before-close ="before_close">
         <div v-if="sub_project"> 
@@ -208,13 +208,6 @@
                         :label="item.title"
                         :value="item.id"
                     ></el-option>
-                    <el-pagination
-                        v-show="myMoney_pagination"
-                        small
-                        @current-change="handleCurrentChange"
-                        layout="total, prev, pager, next"
-                        :total="myMoney_Count"
-                    ></el-pagination>
                     </el-select>
                 </el-form-item>
                 </el-form>
@@ -282,53 +275,8 @@ export default {
         "上海",
         "广州",
         "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳",
-        "深圳"
       ],
-      investMoney: [
-        "不限",
-        "1-10W",
-        "10-20W",
-        "20-30W",
-        "30-50W",
-        "50-100W",
-        "100-200W",
-        "200-500W",
-        "500-1000W"
-      ],
-      industry: [
-        "金融投资",
-        "化工能源",
-        "化工能源",
-        "化工能源",
-        "化工能源",
-        "化工能源",
-        "化工能源",
-        "化工能源",
-        "化工能源",
-        "化工能源",
-        "化工能源",
-        "化工能源",
-        "化工能源",
-        "化工能源",
-        "化工能源",
-        "化工能源"
-      ],
+
       actlist: [
         {
           title: "北京某企资金1000万-9亿元寻求全国优质实体项目合作",
@@ -337,41 +285,6 @@ export default {
           beginTime: "2019/01/01",
           focus: "155人关注"
         },
-        {
-          title: "北京某企资金1000万-9亿元寻求全国优质实体项目合作",
-          content:
-            "本人在天津研发净化空气的设备，有实用新型专利和发明专利，两个合伙人，目前已经入驻天津的工业园区",
-          beginTime: "2019/01/01",
-          focus: "155人关注"
-        },
-        {
-          title: "北京某企资金1000万-9亿元寻求全国优质实体项目合作",
-          content:
-            "本人在天津研发净化空气的设备，有实用新型专利和发明专利，两个合伙人，目前已经入驻天津的工业园区",
-          beginTime: "2019/01/01",
-          focus: "155人关注"
-        },
-        {
-          title: "北京某企资金1000万-9亿元寻求全国优质实体项目合作",
-          content:
-            "本人在天津研发净化空气的设备，有实用新型专利和发明专利，两个合伙人，目前已经入驻天津的工业园区",
-          beginTime: "2019/01/01",
-          focus: "155人关注"
-        },
-        {
-          title: "北京某企资金1000万-9亿元寻求全国优质实体项目合作",
-          content:
-            "本人在天津研发净化空气的设备，有实用新型专利和发明专利，两个合伙人，目前已经入驻天津的工业园区",
-          beginTime: "2019/01/01",
-          focus: "155人关注"
-        },
-        {
-          title: "北京某企资金1000万-9亿元寻求全国优质实体项目合作",
-          content:
-            "本人在天津研发净化空气的设备，有实用新型专利和发明专利，两个合伙人，目前已经入驻天津的工业园区",
-          beginTime: "2019/01/01",
-          focus: "155人关注"
-        }
       ],
       mesData: [
         {
@@ -386,18 +299,6 @@ export default {
           content:
             "“ofo小黄车退了么”成为了关注焦点；中移动受让中国民航信息5.01%股权"
         },
-        {
-          content:
-            "“ofo小黄车退了么”成为了关注焦点；中移动受让中国民航信息5.01%股权"
-        },
-        {
-          content:
-            "“ofo小黄车退了么”成为了关注焦点；中移动受让中国民航信息5.01%股权"
-        },
-        {
-          content:
-            "“ofo小黄车退了么”成为了关注焦点；中移动受让中国民航信息5.01%股权"
-        }
       ],
       checkIndustry:[],
       checkArea:[],
@@ -422,9 +323,17 @@ export default {
       myMoney_Count: 0,
       myMoney_pagination: false,
       sub_project:true,
+      imgData:[]
     };
   },
   methods: {
+    //广告图
+    getImg(){
+      this.$axios.get(`/jsp/wap/index/ctrl/jsonAdvertisement.jsp?key=webProjectList`).then(res=>{
+        console.log("img",res)
+        this.imgData = res.data
+      })
+    },
   //获取数据
   getTypeData() {
       this.$axios.get("/jsp/wap/trProject/ctrl/jsonCategoryList.jsp").then(res => {
@@ -491,20 +400,18 @@ export default {
         });
   },
   getMyMoney(pn) {
-      this.$axios
+      this.$axios                  
         .get("/jsp/wap/center/ctrl/jsonIssueCapitalList.jsp", {
           params: { pageNumber: pn }
         })
         .then(res => {
+          console.log("我的资金",res)
           this.myMoney = res.data.pageList;
           var myMoney = res.data.pageList
           if(myMoney.length > 0){
           this.capitalId = myMoney[0].id
           }
-          this.myMoney_Count = Number(res.data.pagination.totalCount);
-          if (this.myMoney_Count > 10) {
-            this.myMoney_pagination = true;
-          }
+          this.myMoney = myMoney
         });
   },
   morePage() {
@@ -742,6 +649,7 @@ export default {
     this.getTypeData()
     this.getActData()
     this.getNewsList()
+    this.getImg()
     if (Cookies.get("userKey")) {
       this.getMyMoney()
     }
