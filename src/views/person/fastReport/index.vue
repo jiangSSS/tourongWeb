@@ -82,7 +82,7 @@
         
           <p class="title" @click="activityDetailPage(item.resourceId)">{{item.title}}</p>
           <!-- <p class="content">{{item.content}}</p> -->
-          <p class="content" v-html="item.content"></p>
+          <div class="content" v-html="item.content"></div>
         
           <div>
             <button class="noLikeBtn" @click="deleteAct(item.id,index)"><i></i>不感兴趣</button>
@@ -311,9 +311,10 @@ export default {
       color: rgb( 102, 102, 102 );
       line-height: 1.5;
       position: relative;
-      max-height: 43px;
-      overflow: hidden;
-    }
+      max-height: 50px;  
+      padding: 0;
+      overflow: hidden}
+     
     .content::after {
       position: absolute;
       bottom: 0;
